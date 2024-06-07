@@ -8,10 +8,10 @@
     <link rel="stylesheet" href="/css/style.css">
 
 </head>
-<body>
+<body class="bg-blue-200">
 <div class="container border-solid border-2 border-black bg-blue-300">
     <div class="flex mb-4 border-solid border-1 border-black">
-        <div class="w-full bg-gray-500 h-12">
+        <div class="w-full bg-gray-300 h-12">
             <h1 class="text-5xl font-extrabold ps-5">ATM</h1>
         </div>
     </div>
@@ -39,10 +39,14 @@
 
 </div>
 <br>
-<h1 class="text-2xl font-extrabold " th:utext="${ultimateConsult}"></h1>
 
-<p th:utext="${#strings.replace(result,'\n','<br/>')}"></p>
-
+    <div class="border border-1 border-gray-500 div-ticket bg-white">
+        <h1 class="text-2xl font-extrabold">Ticket</h1>
+        <p class="tex-1xl font-extrabold">Total</p>
+        <p class="tex-1xl font-extrabold" th:utext="${atmDTO}"></p>
+        <h1 class="text-2xl font-extrabold " th:utext="${ultimateConsult}"></h1>
+        <p th:utext="${#strings.replace(result,'\n','<br/>')}"></p>
+    </div>
 </body>
 
 <script src="/js/main.js"></script>
