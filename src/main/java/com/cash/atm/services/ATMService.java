@@ -2,6 +2,8 @@ package com.cash.atm.services;
 
 import com.cash.atm.dto.ATMDTO;
 import com.cash.atm.entity.ATMEntity;
+import com.cash.atm.exceptions.EmptyInputException;
+import com.cash.atm.exceptions.ExceedsATMMoney;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -20,17 +22,17 @@ public class ATMService {
     public void initializeATM() {
         //fisrt: quantity of bills, second: denomination, third: type of bill
         Object[][] values = {
-                {2.0, 1000.0, "Billete"},
-                {5.0, 500.0, "Billete"},
-                {10.0, 200.0, "Billete"},
-                {20.0, 100.0, "Billete"},
-                {30.0, 50.0, "Billete"},
-                {40.0, 20.0, "Billete"},
-                {50.0, 10.0, "Moneda"},
-                {100.0, 5.0, "Moneda"},
-                {200.0, 2.0, "Moneda"},
-                {300.0, 1.0, "Moneda"},
-                {100.0, 0.50, "Moneda"}
+                {2.0, 1000.0, "Bill"},
+                {5.0, 500.0, "Bill"},
+                {10.0, 200.0, "Bill"},
+                {20.0, 100.0, "Bill"},
+                {30.0, 50.0, "Bill"},
+                {40.0, 20.0, "Bill"},
+                {50.0, 10.0, "Coins"},
+                {100.0, 5.0, "Coins"},
+                {200.0, 2.0, "Coins"},
+                {300.0, 1.0, "Coins"},
+                {100.0, 0.50, "Coins"}
         };
         double grandTotal = 0;
 
@@ -53,14 +55,17 @@ public class ATMService {
         return convertToDto(totalEntity);
     }
 
-    public String withdrawCash(double amount) {
+    public String withdrawCash(Double amount){
+            if (amount == 0){
+                return "This amount is null";
+            }
 
             if (amount > totalEntity.getTotal()) {
-                return "Insufficient funds in the ATM.";
+                throw new ExceedsATMMoney("ATM");
             }
 
             double remainingAmount = amount;
-            StringBuilder resultMessage = new StringBuilder("<br><p>ATM regreso: </p>");
+            StringBuilder resultMessage = new StringBuilder("<br><p>ATM: </p>");
             List<Object[]> dispensedCash = new ArrayList<>();
 
             for (Object[] denom : atmInitialized) {
@@ -73,7 +78,7 @@ public class ATMService {
                     remainingAmount -= numNotes * denomination;
                     denom[0] = quantity - numNotes;
                     dispensedCash.add(new Object[]{numNotes, denomination, type});
-                    resultMessage.append("<p> ").append((int)numNotes).append(" de ").append(denomination).append(" ").append(type).append("</p>");
+                    resultMessage.append("<p> ").append((int)numNotes).append(" of ").append(denomination).append(" ").append(type).append("</p>");
 
                     if (remainingAmount == 0) {
                         break;
@@ -82,17 +87,17 @@ public class ATMService {
             }
 
             if (remainingAmount > 0) {
-                return "Unable to dispense the requested amount with available denominations.";
+                throw new ExceedsATMMoney("ATM");
             }
 
             totalEntity.setTotal(totalEntity.getTotal() - amount);
 
-            resultMessage.append("<br><p>Billetes que quedan:<p>");
+            resultMessage.append("<br><p>Tickets left:<p>");
             for (Object[] atm : atmInitialized) {
                 double atmCount = (double)atm[0];
                 double atmValue = (double)atm[1];
                 String atmType = (String)atm[2];
-                resultMessage.append("<p>Cantidad: ").append((int)atmCount).append(" de ").append(atmValue).append(atmType).append("</p>");
+                resultMessage.append("<p>Quantity: ").append((int)atmCount).append(" of ").append(atmValue).append(" ").append(atmType).append("</p>");
             }
 
             return resultMessage.toString();
