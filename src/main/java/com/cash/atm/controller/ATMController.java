@@ -23,7 +23,7 @@ public class ATMController {
     @GetMapping("/")
     public String home(Model model) {
         //Call to DTO
-        ATMDTO atmDTO = atmServices.getTotalEntity(1L);
+        ATMDTO atmDTO = atmServices.getTotalEntity(1);
         //Add attribute to view
         model.addAttribute("atmDTO", atmDTO);
         //Return view
@@ -34,7 +34,9 @@ public class ATMController {
     public String withdrawCash(@RequestParam double amount, Model model){
         String result = atmServices.withdrawCash(amount);
         String ultimateConsult = String.valueOf(amount);
+        ATMDTO atmDTO = atmServices.getTotalEntity(1);
         model.addAttribute("result", result);
+        model.addAttribute("atmDTO", atmDTO);
         model.addAttribute("ultimateConsult", ultimateConsult);
         return "index";
     }

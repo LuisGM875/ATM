@@ -7,4 +7,10 @@ import lombok.Setter;
 @Setter
 public class ATMDTO {
     private double total;
+
+
+    @Override
+    public String toString() {
+        return String.valueOf(total);
+    }
 }

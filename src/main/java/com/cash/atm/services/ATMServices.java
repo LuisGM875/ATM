@@ -6,5 +6,5 @@ import  com.cash.atm.entity.ATMEntity;
 public interface ATMServices {
     public String withdrawCash(Double amount);
     public ATMDTO convertToDto(ATMEntity entity);
-    public ATMDTO getTotalEntity(Long id);
+    public ATMDTO getTotalEntity(int id);
 }

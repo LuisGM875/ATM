@@ -53,7 +53,7 @@ public class ATMService implements ATMServices{
     }
 
 
-    public ATMDTO getTotalEntity(Long id) {
+    public ATMDTO getTotalEntity(int id) {
         return convertToDto(totalEntity);
     }
 
