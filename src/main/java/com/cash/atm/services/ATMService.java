@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ATMService {
+//Implements dont use import
+public class ATMService implements ATMServices{
     private static final List<Object[]> atmInitialized = new ArrayList<Object[]>();
     private final ATMEntity totalEntity = new ATMEntity();
 
@@ -50,6 +51,7 @@ public class ATMService {
         dto.setTotal( entity.getTotal());
         return dto;
     }
+
 
     public ATMDTO getTotalEntity(Long id) {
         return convertToDto(totalEntity);
