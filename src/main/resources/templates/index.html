@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ATM</title>
+    <html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+        }
+        .container {
+            text-align: center;
+        }
+        .input-section {
+            margin-bottom: 20px;
+        }
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .button {
+            padding: 20px;
+            font-size: 20px;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function addToAmount(value) {
+            const amountField = document.getElementById('amount');
+            if (value === '.' && amountField.value.includes('.')) {
+                return;
+            }
+            if (isNaN(value) && value !== '.') {
+                return;
+            }
+            amountField.value += value;
+        }
+
+        function clearAmount() {
+            document.getElementById('amount').value = '';
+        }
+
+    </script>
+</head>
+<body>
+<div class="container border-solid border-2 border-black bg-blue-300">
+    <div class="flex mb-4 border-solid border-1 border-black">
+        <div class="w-full bg-gray-500 h-12">
+            <h1 class="text-5xl font-extrabold ps-5">ATM</h1>
+        </div>
+    </div>
+    <form action="/withdraw" th:action="@{/withdraw}" method="post">
+    <div class="input-section flex justify-start mr-4" >
+        <h1 class="text-2xl font-extrabold" for="amount">Enter amount:</h1>
+        <input type="text" id="amount" name="amount" readonly class="text-4xl input-section w-5/6 mr-4 border border-blue-700 rounded-lg">
+        <input type="submit" class="block w-1/6 p-1 ps-5 text-sm text-white border border-blue-500 rounded-lg bg-blue-700 mr-4">
+    </div>
+    </form>
+    <div class="buttons mr-4 ml-4">
+        <button class="button border-2 border-gray-500 rounded-lg bg-blue-600" onclick="addToAmount('1')">1</button>
+        <button class="button border-2 border-gray-500 rounded-lg bg-blue-600" onclick="addToAmount('2')">2</button>
+        <button class="button border-2 border-gray-500 rounded-lg bg-blue-600" onclick="addToAmount('3')">3</button>
+        <button class="button border-2 border-gray-500 rounded-lg bg-blue-600" onclick="addToAmount('4')">4</button>
+        <button class="button border-2 border-gray-500 rounded-lg bg-blue-600" onclick="addToAmount('5')">5</button>
+        <button class="button border-2 border-gray-500 rounded-lg bg-blue-600" onclick="addToAmount('6')">6</button>
+        <button class="button border-2 border-gray-500 rounded-lg bg-blue-600" onclick="addToAmount('7')">7</button>
+        <button class="button border-2 border-gray-500 rounded-lg bg-blue-600" onclick="addToAmount('8')">8</button>
+        <button class="button border-2 border-gray-500 rounded-lg bg-blue-600" onclick="addToAmount('9')">9</button>
+        <button class="button border-2 border-gray-500 rounded-lg bg-red-600 text-white" onclick="clearAmount()">Clear</button>
+        <button class="button border-2 border-gray-500 rounded-lg bg-blue-600" onclick="addToAmount('0')">0</button>
+        <button class="button border-2 border-gray-500 rounded-lg bg-blue-600" onclick="addToAmount('.')"><h1 class="text-4xl font-extrabold">.</h1></button>
+    </div>
+
+
+
+</div>
+<br>
+<h1 class="text-2xl font-extrabold " th:utext="${ultimateConsult}"></h1>
+
+<p th:utext="${#strings.replace(result,'\n','<br/>')}"></p>
+
+
+</body>
+</html>
